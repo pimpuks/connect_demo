@@ -20540,6 +20540,7 @@ AWS.apiLoader.services['sts']['2011-06-15'] = require('../apis/sts-2011-06-15.mi
          if (params.loginPopup !== false) {
             try {
                var loginUrl = createLoginUrl(params);
+               console.log(`loginUrl: ${loginUrl}`);
                connect.getLog().warn("ACK_TIMEOUT occurred, attempting to pop the login page if not already open.");
                connect.core.getPopupManager().open(loginUrl, connect.MasterTopics.LOGIN_POPUP);
 
