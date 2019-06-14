@@ -20470,7 +20470,8 @@ AWS.apiLoader.services['sts']['2011-06-15'] = require('../apis/sts-2011-06-15.mi
 
       connect.assertNotNull(containerDiv, 'containerDiv');
       connect.assertNotNull(params.ccpUrl, 'params.ccpUrl');
-      console.log(`params.ccpUrl: ${params.ccpUrl}`);
+      // console.log(`params.ccpUrl: ${params.ccpUrl}`);
+      connect.getLog().trace(`params.ccpUrl: ${params.ccpUrl}`);
       // Create the CCP iframe and append it to the container div.
       var iframe = document.createElement('iframe');
       iframe.src = params.ccpUrl;
@@ -20540,7 +20541,8 @@ AWS.apiLoader.services['sts']['2011-06-15'] = require('../apis/sts-2011-06-15.mi
          if (params.loginPopup !== false) {
             try {
                var loginUrl = createLoginUrl(params);
-               console.log(`loginUrl: ${loginUrl}`);
+              //  console.log(`loginUrl: ${loginUrl}`);
+               connect.getLog().trace(`loginUrl: ${loginUrl}`);
                connect.getLog().warn("ACK_TIMEOUT occurred, attempting to pop the login page if not already open.");
                connect.core.getPopupManager().open(loginUrl, connect.MasterTopics.LOGIN_POPUP);
 
