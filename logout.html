@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Amazon Connect Custom CCP Demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+    <link href="css/style.css" rel="stylesheet" type="text/css" />
+  </head>
+
+  <body>
+    <style>
+      section.section-main {
+        min-width: 960px;
+        margin: 8px 22px 2px 22px;
+        padding: 10px;
+        float: left;
+        overflow: hidden;
+      }
+    </style>
+
+    <section id="main-section" class="section-main">
+      <div style="text-align: center;">
+        <header>
+          <h1>You have been logged out and put in an offline state!</h1>
+        </header>
+        <form style="text-align: center;">
+          <input
+            type="submit"
+            class="submit"
+            id="post-btn"
+            value="Log Back in to Amazon Connect"
+          />
+        </form>
+      </div>
+    </section>
+
+    <script>
+      $(document).ready(() => {
+        function getQueryParameters() {
+          var query = window.location.href.split('?')[1];
+
+          //query won't be set if ? isn't in the URL
+          if (!query) {
+            return {};
+          }
+
+          var params = query.split('&');
+
+          var pairs = {};
+          for (var i = 0, len = params.length; i < len; i++) {
+            var pair = params[i].split('=');
+            pairs[pair[0]] = pair[1];
+          }
+
+          return pairs;
+        }
+        console.log('this is a test: ' + getQueryParameters().sourceURL);
+
+        $('#post-btn').click(() => {
+          window.location = getQueryParameters().sourceURL;
+          return false;
+        });
+      });
+    </script>
+  </body>
+</html>
