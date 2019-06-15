@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html>
-
-<head>
-    <title>Amazon Connect Demo Site</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta content="utf-8" http-equiv="encoding">
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Amazon Connect CCP</title>
     <link href="css/style.css" rel="stylesheet" type="text/css" />
     <link href="css/copybutton.css" rel="stylesheet" type="text/css" />
     <link href="css/menuStyle.css" rel="stylesheet" type="text/css" />
@@ -14,365 +14,466 @@
     <script src="js/demo-common.js"></script>
     <script src="js/menu.js"></script>
     <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
-</head>
-
-<body>
-    <!--navbar div with the id-->
+  </head>
+  <body>
     <div id="navbar-frame"></div>
     <script>
-        var clipboard = new Clipboard('.btn');
-        clipboard.on('success', function (e) {
-            console.log(e);
-        });
+      var clipboard = new Clipboard('.btn');
+      clipboard.on('success', function(e) {
+        console.log(e);
+      });
 
-        clipboard.on('error', function (e) {
-            console.log(e);
-        });
+      clipboard.on('error', function(e) {
+        console.log(e);
+      });
     </script>
     <style>
-        #ccpContainer {
-            width: 265px;
-            height: 465px;
-            overflow: hidden;
-            float: left;
-            margin-left: 22px;
-            padding: 25px;
-        }
+      #ccpContainer {
+        width: 265px;
+        height: 465px;
+        overflow: hidden;
+        float: left;
+        margin-left: 22px;
+        padding: 25px;
+      }
 
-        #section-main {
-            padding: 10px;
-            max-width: 600px;
-            height: 495px;
-            margin-left: 0px;
-            float: left;
-            overflow: hidden;
-        }
+      #section-main {
+        padding: 10px;
+        max-width: 600px;
+        height: 495px;
+        margin-left: 0px;
+        float: left;
+        overflow: hidden;
+      }
 
-        #attributes_wrapper {
-            font-size: 14px;
-            width: 550px;
-            height: 175px;
-            overflow-y: scroll;
-            overflow-x: hidden;
-        }
+      #attributes_wrapper {
+        font-size: 14px;
+        width: 550px;
+        height: 175px;
+        overflow-y: scroll;
+        overflow-x: hidden;
+      }
     </style>
     <section id="ccpContainer">
-        <div id="ccpContainer1">
-            <script>
-                //Connect CCP Integration
-                var container = document.getElementById("ccpContainer");
-                var instanceAlias = alias;
-                // var loginURL = `https://${instanceAlias}.awsapps.com/connect/login`;
-                var loginURL = 'https://fs.pstest.biz/adfs/ls/idpinitiatedsignon.aspx?RelayState=RPID%3durn%3Aamazon%3Awebservices%26RelayState%3dhttps%3A%2F%2Fap-southeast-2.console.aws.amazon.com%2Fconnect%2Ffederate%2Fe3087602-a58f-408a-a5e8-0ea920e56eba%3Fdestination%3d%2Fconnect%2Fccp';
-                if (instanceAlias === "connect-demos"){
-                    loginURL = `https://csat.awsapps.com/start/#/saml/default/connect-demo-prod/ins-35f023da542f4c1d`;
-                }
-                // var logoutURL = `https://${instanceAlias}.awsapps.com/connect/logout`;
-                var logoutURL = 'https://fs.pstest.biz/adfs/ls/idpinitiatedsignon.aspx?RelayState=RPID%3durn%3Aamazon%3Awebservices%26RelayState%3dhttps%3A%2F%2Fap-southeast-2.console.aws.amazon.com%2Fconnect%2Ffederate%2Fe3087602-a58f-408a-a5e8-0ea920e56eba%3Fdestination%3d%2Fconnect%2Flogout';
-                var instanceHome = `https://${instanceAlias}.awsapps.com/connect/home`;
-                var ccpURL = `https://${alias}.awsapps.com/connect/ccp`;
-                var agentMetricsURL = `https://${alias}.awsapps.com/connect/real-time-metrics?tableType=user`;
-                var loginWindow;
-                window.ccp = window.ccp || {};
-                connect.core.initCCP(container, {
-                    ccpUrl: ccpURL,
-                    loginPopup: false,
-                    softphone: {
-                        allowFramedSoftphone: true,
-                        disableRingtone: false
-                    }
+      <div id="ccpContainer1">
+        <script>
+          //Connect CCP Integration
+          var container = document.getElementById('ccpContainer');
+          var instanceAlias = alias;
+          // var loginURL = `https://${instanceAlias}.awsapps.com/connect/login`;
+          var loginURL =
+            'https://fs.pstest.biz/adfs/ls/idpinitiatedsignon.aspx?RelayState=RPID%3durn%3Aamazon%3Awebservices%26RelayState%3dhttps%3A%2F%2Fap-southeast-2.console.aws.amazon.com%2Fconnect%2Ffederate%2Fe3087602-a58f-408a-a5e8-0ea920e56eba%3Fdestination%3d%2Fconnect%2Fccp';
+          if (instanceAlias === 'connect-demos') {
+            loginURL = `https://csat.awsapps.com/start/#/saml/default/connect-demo-prod/ins-35f023da542f4c1d`;
+          }
+          // var logoutURL = `https://${instanceAlias}.awsapps.com/connect/logout`;
+          var logoutURL =
+            'https://fs.pstest.biz/adfs/ls/idpinitiatedsignon.aspx?RelayState=RPID%3durn%3Aamazon%3Awebservices%26RelayState%3dhttps%3A%2F%2Fap-southeast-2.console.aws.amazon.com%2Fconnect%2Ffederate%2Fe3087602-a58f-408a-a5e8-0ea920e56eba%3Fdestination%3d%2Fconnect%2Flogout';
+          var instanceHome = `https://${instanceAlias}.awsapps.com/connect/home`;
+          var ccpURL = `https://${alias}.awsapps.com/connect/ccp`;
+          var agentMetricsURL = `https://${alias}.awsapps.com/connect/real-time-metrics?tableType=user`;
+          var loginWindow;
+          window.ccp = window.ccp || {};
+          connect.core.initCCP(container, {
+            ccpUrl: ccpURL,
+            loginPopup: false,
+            softphone: {
+              allowFramedSoftphone: true,
+              disableRingtone: false
+            }
+          });
+          connect.core
+            .getEventBus()
+            .subscribe(connect.EventType.ACK_TIMEOUT, function() {
+              try {
+                connect
+                  .getLog()
+                  .warn(
+                    'ACK_TIMEOUT occurred, attempting to pop the login page.'
+                  );
+                var width = 500;
+                var height = 600;
+                var left = screen.width / 2 - width / 2;
+                var top = screen.height / 2 - height / 2;
+
+                loginWindow = window.open(
+                  loginURL,
+                  true,
+                  'width=' +
+                    width +
+                    ',height=' +
+                    height +
+                    ',menubar=no,status=no,toolbar=no,left=' +
+                    left +
+                    ',top=' +
+                    top
+                );
+              } catch (e) {
+                connect
+                  .getLog()
+                  .error(
+                    'ACK_TIMEOUT occurred but we are unable to open the login popup.' +
+                      e
+                  )
+                  .withException(e);
+              }
+
+              connect.core
+                .getEventBus()
+                .subscribe(connect.EventType.ACKNOWLEDGE, function() {
+                  closeLoginWindow();
                 });
-                connect.core.getEventBus().subscribe(connect.EventType.ACK_TIMEOUT, function () {
-                    try {
-                        connect.getLog().warn("ACK_TIMEOUT occurred, attempting to pop the login page.");
-                        var width = 500;
-                        var height = 600;
-                        var left = (screen.width / 2) - (width / 2);
-                        var top = (screen.height / 2) - (height / 2);
+            });
 
-                        loginWindow = window.open(loginURL, true, "width=" + width + ",height=" + height +
-                            ",menubar=no,status=no,toolbar=no,left=" + left + ",top=" + top);
-                    } catch (e) {
-                        connect.getLog().error(
-                            "ACK_TIMEOUT occurred but we are unable to open the login popup." + e).withException(
-                            e);
-                    }
+          function closeLoginWindow() {
+            loginWindow.close();
+          }
 
-                    connect.core.getEventBus().subscribe(connect.EventType.ACKNOWLEDGE, function () {
-                        closeLoginWindow();
-                    });
+          connect.agent(agent => {
+            $('#logoutButton').show();
+            window.ccp.agent = agent;
 
-                });
+            //Setup nav-bar action buttons
 
-                function closeLoginWindow() {
-                    loginWindow.close();
+            $('#logoutButton').click(() => {
+              goOfflineLogout();
+            });
+
+            //pop-native CCP
+            $('#nativeCCP').click(() => {
+              openNativeCCP();
+            });
+
+            //Open Agent Metrics Page
+            $('#agentMetrics').click(() => {
+              openAgentMetrics();
+            });
+
+            $('#agentMetrics').show();
+            $('#nativeCCP').show();
+            $('#logoutButton').show();
+          });
+
+          function goOfflineLogout() {
+            var offlineState = window.ccp.agent
+              .getAgentStates()
+              .filter(function(state) {
+                console.log('this is state: ' + state);
+                return state.type === connect.AgentStateType.OFFLINE;
+              })[0];
+            window.ccp.agent.setState(offlineState, {
+              success: function() {
+                console.log('Set agent status to Offline via Streams');
+                logOut();
+              },
+              failure: function() {
+                console.log(
+                  'Failed to set agent status to Offline via Streams'
+                );
+              }
+            });
+          }
+
+          function logOut() {
+            var width = 500;
+            var height = 600;
+            var left = screen.width / 2 - width / 2;
+            var top = screen.height / 2 - height / 2;
+            var sourceURL = window.location.href;
+
+            logoutWindow = window.open(
+              logoutURL,
+              true,
+              'width=' +
+                width +
+                ',height=' +
+                height +
+                ',menubar=no,status=no,toolbar=no,left=' +
+                left +
+                ',top=' +
+                top
+            );
+            logoutWindow.close();
+            console.log('closed the window');
+            newWindow = window.location.replace(
+              `/connect_demo/logout.html?sourceURL=${sourceURL}`
+            );
+          }
+
+          function openNativeCCP() {
+            var width = 320;
+            var height = 468;
+            var left = screen.width / 2 - width / 2;
+            var top = screen.height / 2 - height / 2;
+
+            ccpWindow = window.open(
+              ccpURL,
+              true,
+              'width=' +
+                width +
+                ',height=' +
+                height +
+                ',menubar=no,status=no,toolbar=no,left=' +
+                left +
+                ',top=' +
+                top
+            );
+          }
+
+          function openAgentMetrics() {
+            agentMetricsWindow = window.open(agentMetricsURL, false);
+          }
+
+          var c;
+          connect.contact(function(contact) {
+            c = contact;
+            c.onConnecting(function(c) {
+              var attr = c.getAttributes();
+              var c1 = c.getConnections()[1];
+              var c2 = c.getStatus();
+              document.getElementById('contactID').value = c.contactId;
+              document.getElementById('phoneNumber').value = c1.getAddress()[
+                'phoneNumber'
+              ];
+              if (attr.firstName) {
+                document.getElementById('firstName').value =
+                  attr.firstName.value;
+              }
+              if (attr.lastName) {
+                document.getElementById('lastName').value = attr.lastName.value;
+              }
+            });
+
+            c.onRefresh(c => {
+              console.log(`contact refreshed`);
+              fillTable(c.getAttributes());
+            });
+
+            c.onConnected(() => {
+              $('#updateName').click(() => {
+                var $phoneNumber = $('#phoneNumber').val();
+                var $firstName = ' ';
+                var $lastName = ' ';
+
+                if ($('#firstName').val()) {
+                  $firstName = $('#firstName').val();
                 }
 
-                connect.agent((agent) => {
-                    $('#logoutButton').show();
-                    window.ccp.agent = agent;
-
-                    //Setup nav-bar action buttons
-
-                    $("#logoutButton").click(() => {
-                        goOfflineLogout();
-                    });
-
-                    //pop-native CCP
-                    $("#nativeCCP").click(() => {
-                        openNativeCCP();
-                    });
-
-                    //Open Agent Metrics Page
-                    $("#agentMetrics").click(() => {
-                        openAgentMetrics();
-                    });
-
-                    $("#agentMetrics").show();
-                    $("#nativeCCP").show();
-                    $('#logoutButton').show();
-                });
-
-
-
-                function goOfflineLogout() {
-                    var offlineState = window.ccp.agent.getAgentStates().filter(function (state) {
-                        console.log("this is state: " + state);
-                        return state.type === connect.AgentStateType.OFFLINE;
-                    })[0];
-                    window.ccp.agent.setState(offlineState, {
-                        success: function () {
-                            console.log("Set agent status to Offline via Streams");
-                            logOut();
-                        },
-                        failure: function () {
-                            console.log("Failed to set agent status to Offline via Streams");
-                        }
-                    });
+                if ($('#lastName').val()) {
+                  $lastName = $('#lastName').val();
                 }
 
-                function logOut() {
-                    var width = 500;
-                    var height = 600;
-                    var left = (screen.width / 2) - (width / 2);
-                    var top = (screen.height / 2) - (height / 2);
-                    var sourceURL = window.location.href;
-
-                    logoutWindow = window.open(logoutURL, true, "width=" + width + ",height=" + height +
-                        ",menubar=no,status=no,toolbar=no,left=" + left + ",top=" + top);
-                    logoutWindow.close();
-                    console.log("closed the window");
-                    newWindow = window.location.replace(`/connect_demo/logout.html?sourceURL=${sourceURL}`);
-                }
-
-
-                function openNativeCCP() {
-                    var width = 320;
-                    var height = 468;
-                    var left = (screen.width / 2) - (width / 2);
-                    var top = (screen.height / 2) - (height / 2);
-
-
-                    ccpWindow = window.open(ccpURL, true, "width=" + width + ",height=" + height +
-                        ",menubar=no,status=no,toolbar=no,left=" + left + ",top=" + top);
-                }
-
-                function openAgentMetrics() {
-                    agentMetricsWindow = window.open(agentMetricsURL, false);
-                }
-
-
-
-                var c;
-                connect.contact(function (contact) {
-                    c = contact;
-                    c.onConnecting(function (c) {
-                        var attr = c.getAttributes();
-                        var c1 = c.getConnections()[1];
-                        var c2 = c.getStatus();
-                        document.getElementById("contactID").value = c.contactId;
-                        document.getElementById("phoneNumber").value = c1.getAddress()['phoneNumber'];
-                        if (attr.firstName) {
-                            document.getElementById("firstName").value = attr.firstName.value;
-                        }
-                        if (attr.lastName) {
-                            document.getElementById("lastName").value = attr.lastName.value;
-                        }
-                    });
-
-                    c.onRefresh((c) => {
-                        console.log(`contact refreshed`);
-                        fillTable(c.getAttributes());
-                    });
-
-                    c.onConnected(() => {
-                        $("#updateName").click(() => {
-                            var $phoneNumber = $('#phoneNumber').val();
-                            var $firstName = " ";
-                            var $lastName = " ";
-
-                            if ($('#firstName').val()) {
-                                $firstName = $('#firstName').val();
-                            }
-
-                            if ($('#lastName').val()) {
-                                $lastName = $('#lastName').val();
-                            }
-
-                            var body = {
-                                "function Name": "Update Name",
-                                "functionID": "10",
-                                "phoneNumber": $phoneNumber,
-                                "firstName": $firstName,
-                                "lastName": $lastName,
-                            };
-
-
-                            var posting = $.ajax({
-                                    url: "https://myvvhs8lgj.execute-api.us-east-1.amazonaws.com/prod/",
-                                    method: "POST",
-                                    data: JSON.stringify(body)
-                                })
-                                .done(function (msg) {
-                                    var serverResultObject = JSON.stringify(msg);
-                                    var serverResult = JSON.parse(serverResultObject);
-                                    var statusCode = serverResult.statusCode;
-
-                                    if (statusCode == 200) {
-                                        document.getElementById('updateNameIMG').src =
-                                            "../assets/checkmark.png";
-                                        console.log("Name Updated Successfully");
-
-                                    } else {
-                                        console.log("Server said: " + JSON.parse(msg.body).message);
-                                    }
-
-                                })
-                                .fail(function (msg) {
-                                    console.log("Failed with response: " + JSON.stringify(
-                                        msg));
-                                });
-                            return false; // avoid to execute the actual submit of the form.
-                        });
-                    });
-
-                });
-
-                var table;
-                $(document).ready((a) => {
-                    table = $('#attributes').DataTable({
-                        columns: [{
-                                title: "Name"
-                            },
-                            {
-                                title: "Value"
-                            }
-                        ],
-                        paging: false,
-                        info: false,
-                        searching: false
-                    });
-                    $("#showAttributes").click(() => { 
-                        $('#visibleAttributes').show();
-                        $('#hiddenAttributes').hide();
-                    });
-                    $("#hideAttributes").click(() => {
-                        $('#visibleAttributes').hide();
-                        $('#hiddenAttributes').show();
-                    });
-
-                });
-
-                var fillTable = (attributes) => {
-                    table.clear();
-                    for (var k in attributes) {
-                        var value = attributes[k].value;
-                        if (value.startsWith("http")) {
-                            value = '<a target="_blank" href="' + value + '">' + value + '</a>'
-                        }
-                        table.row.add([k, value]);
-                    }
-                    table.draw();
+                var body = {
+                  'function Name': 'Update Name',
+                  functionID: '10',
+                  phoneNumber: $phoneNumber,
+                  firstName: $firstName,
+                  lastName: $lastName
                 };
 
+                var posting = $.ajax({
+                  url:
+                    'https://myvvhs8lgj.execute-api.us-east-1.amazonaws.com/prod/',
+                  method: 'POST',
+                  data: JSON.stringify(body)
+                })
+                  .done(function(msg) {
+                    var serverResultObject = JSON.stringify(msg);
+                    var serverResult = JSON.parse(serverResultObject);
+                    var statusCode = serverResult.statusCode;
 
-                // Reset form after agent becomes available again
-                connect.agent((agent) => {
-                    agent.onStateChange((event) => {
-                        if (event.newState === 'Available') {
-                            document.getElementById("contactDetails").reset();
-                            $('#attributes').DataTable().clear().draw();
-                            document.getElementById('updateNameIMG').src = "../assets/sync.svg";
+                    if (statusCode == 200) {
+                      document.getElementById('updateNameIMG').src =
+                        '../assets/checkmark.png';
+                      console.log('Name Updated Successfully');
+                    } else {
+                      console.log(
+                        'Server said: ' + JSON.parse(msg.body).message
+                      );
+                    }
+                  })
+                  .fail(function(msg) {
+                    console.log('Failed with response: ' + JSON.stringify(msg));
+                  });
+                return false; // avoid to execute the actual submit of the form.
+              });
+            });
+          });
 
-                        }
-                    });
-                });
-            </script>
-        </div>
+          var table;
+          $(document).ready(a => {
+            table = $('#attributes').DataTable({
+              columns: [
+                {
+                  title: 'Name'
+                },
+                {
+                  title: 'Value'
+                }
+              ],
+              paging: false,
+              info: false,
+              searching: false
+            });
+            $('#showAttributes').click(() => {
+              $('#visibleAttributes').show();
+              $('#hiddenAttributes').hide();
+            });
+            $('#hideAttributes').click(() => {
+              $('#visibleAttributes').hide();
+              $('#hiddenAttributes').show();
+            });
+          });
+
+          var fillTable = attributes => {
+            table.clear();
+            for (var k in attributes) {
+              var value = attributes[k].value;
+              if (value.startsWith('http')) {
+                value =
+                  '<a target="_blank" href="' + value + '">' + value + '</a>';
+              }
+              table.row.add([k, value]);
+            }
+            table.draw();
+          };
+
+          // Reset form after agent becomes available again
+          connect.agent(agent => {
+            agent.onStateChange(event => {
+              if (event.newState === 'Available') {
+                document.getElementById('contactDetails').reset();
+                $('#attributes')
+                  .DataTable()
+                  .clear()
+                  .draw();
+                document.getElementById('updateNameIMG').src =
+                  '../assets/sync.svg';
+              }
+            });
+          });
+        </script>
+      </div>
     </section>
     <section id="section-main">
-        <header>
-            <h1>Amazon Connect CCP Integration Demo</h1>
-            <p>Demonstrates the abilty to embed the Call Control Panel and pass data to a form</p>
-        </header>
-        <form name="contactDetails" id="contactDetails">
-            <fieldset>
-                <legend>Contact Details</legend>
-                <div>
-                    <label for="phoneNumber">Phone Number</label>
-                    <input name="phoneNumber" type="tel" id="phoneNumber" placeholder="+15551112222" readonly>
-                </div>
-                <div>
-                    <table>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <label for="firstName" style="width: 128px;">Full Name</label>
-                                </td>
-                                <td>
-                                    <input name="firstName" type="text" id="firstName" placeholder="First Name" style='width:161px'>
-                                </td>
-                                <td>
-                                    <input name="lastName" type="text" id="lastName" placeholder="Last Name" style='width:162px'>
-                                </td>
-                                <td>
-                                    <button class="btn" type="button" id="updateName">
-                                        <img class="clippy" id="updateNameIMG" src="../assets/sync.svg" width="17" alt="Copy to clipboard"> </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div>
-                    <table>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <label for="contactID" style="width: 128px;">Contact ID</label>
-                                </td>
-                                <td>
-                                    <input name="contactID" type="text" id="contactID" placeholder="Contact ID" style='width: 340px' readonly>
-                                </td>
-                                <td>
-                                    <button class="btn" type="button" id="btn" data-clipboard-demo data-clipboard-target="#contactID">
-                                        <img class="clippy" src="../assets/clippy.svg" width="17" alt="Copy to clipboard">
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div>
-                    <div id="hiddenAttributes">
-                        <input type=button id="showAttributes" value="Show Contact Attributes"></input>
-                    </div>
-                    <div id="visibleAttributes" style="display:none;">
-                        <input type=button id="hideAttributes" value="Hide Contact Attributes"></input>
-                        <table id="attributes" style="width:100%;border:1px;" />
-                    </div>
-                </div>
-            </fieldset>
-        </form>
+      <header>
+        <h1>Amazon Connect CCP Integration Demo</h1>
+        <p>
+          Demonstrates the abilty to embed the Call Control Panel and pass data
+          to a form
+        </p>
+      </header>
+      <form name="contactDetails" id="contactDetails">
+        <fieldset>
+          <legend>Contact Details</legend>
+          <div>
+            <label for="phoneNumber">Phone Number</label>
+            <input
+              name="phoneNumber"
+              type="tel"
+              id="phoneNumber"
+              placeholder="+15551112222"
+              readonly
+            />
+          </div>
+          <div>
+            <table>
+              <tbody>
+                <tr>
+                  <td>
+                    <label for="firstName" style="width: 128px;"
+                      >Full Name</label
+                    >
+                  </td>
+                  <td>
+                    <input
+                      name="firstName"
+                      type="text"
+                      id="firstName"
+                      placeholder="First Name"
+                      style="width:161px"
+                    />
+                  </td>
+                  <td>
+                    <input
+                      name="lastName"
+                      type="text"
+                      id="lastName"
+                      placeholder="Last Name"
+                      style="width:162px"
+                    />
+                  </td>
+                  <td>
+                    <button class="btn" type="button" id="updateName"></button>
+                    <img
+                      class="clippy"
+                      id="updateNameIMG"
+                      src="../assets/sync.svg"
+                      width="17"
+                      alt="Copy to clipboard"
+                    />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div>
+            <table>
+              <tbody>
+                <tr>
+                  <td>
+                    <label for="contactID" style="width: 128px;"
+                      >Contact ID</label
+                    >
+                  </td>
+                  <td>
+                    <input
+                      name="contactID"
+                      type="text"
+                      id="contactID"
+                      placeholder="Contact ID"
+                      style="width: 340px"
+                      readonly
+                    />
+                  </td>
+                  <td>
+                    <button
+                      class="btn"
+                      type="button"
+                      id="btn"
+                      data-clipboard-demo
+                      data-clipboard-target="#contactID"
+                    ></button>
+                    <img
+                      class="clippy"
+                      src="../assets/clippy.svg"
+                      width="17"
+                      alt="Copy to clipboard"
+                    />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div>
+            <div id="hiddenAttributes">
+              <input
+                type="button"
+                id="showAttributes"
+                value="Show Contact Attributes"
+              />
+            </div>
+            <div id="visibleAttributes" style="display:none;">
+              <input
+                type="button"
+                id="hideAttributes"
+                value="Hide Contact Attributes"
+              />
+              <table id="attributes" style="width:100%;border:1px;"></table>
+            </div>
+          </div>
+        </fieldset>
+      </form>
     </section>
-</body>
-</script>
-
+  </body>
 </html>
